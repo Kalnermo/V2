@@ -1,0 +1,25 @@
+import requests
+import json
+
+CONFIG_URL = "http://121.127.37.120/config.json"
+
+def load_config():
+    try:
+        response = requests.get(CONFIG_URL)
+        response.raise_for_status()
+        print("Config loaded successfully")
+        return response.json()
+    except requests.RequestException as e:
+        print(f"Error loading config: {e}")
+        return None
+
+def main():
+    config = load_config()
+    if config:
+        # Используйте параметры конфигурации из config.json
+        for target in config.get("targets", []):
+            print(f"Attacking {target['url']} with {target['threads']} threads for {target['duration']} seconds.")
+            # Добавьте здесь вашу логику запуска атаки
+    
+if __name__ == "__main__":
+    main()
